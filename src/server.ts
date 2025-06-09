@@ -28,12 +28,13 @@ const app = express();
 const PORT = parseInt(process.env.PORT || "10000", 10);
 
 const corsOptions = {
-  origin: [
-    "https://commersely-starterup.vercel.app",
-    "https://commersely-starterup-server-1.onrender.com",
-    "http://localhost:3000",
-    "https://3888-197-136-187-86.ngrok-free.app",
-  ],
+  origin: "*",
+  // [
+  // "https://commersely-starterup.vercel.app",
+  // "https://commersely-starterup-server-1.onrender.com",
+  // "http://localhost:3000",
+  // "https://3888-197-136-187-86.ngrok-free.app",
+  // ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

@@ -31,7 +31,7 @@ const corsOptions = {
   origin: [
     "https://commersely-starterup.vercel.app/",
     "http://localhost:3000",
-    "https://a8e5-102-210-56-246.ngrok-free.app",
+    "https://3888-197-136-187-86.ngrok-free.app",
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -67,7 +67,7 @@ app.use("/api/admin-analytics", adminAnalytics);
 app.use("/api/payment", paymentRoute);
 app.use("/api/subscriptions", subscriptionRoutes);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is now running on port ${PORT}`);
 });
 

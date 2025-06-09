@@ -4,24 +4,23 @@ import dotenv from "dotenv";
 import express from "express";
 import prisma from "./lib/db";
 import addressRoutes from "./routes/addressRoutes";
-import authRoutes from "./routes/authRoutes";
-import cartRoutes from "./routes/cartRoutes";
-import couponRoutes from "./routes/couponRoutes";
-import orderRoutes from "./routes/orderRoutes";
-import productRoutes from "./routes/productRoutes";
-import settingsRoutes from "./routes/settingRoutes";
-import adminSettings from "./routes/adminsettingsRoutes";
-import wishlistRoute from "./routes/wishlist";
-import categoryRoutes from "./routes/categoryRoutes";
-import customerRoutes from "./routes/customer.route";
-import reviewRoutes from "./routes/reviews.route";
-import emailRoutes from "./routes/email.route";
 import adminActivityRoutes from "./routes/adminActivityRoutes";
 import adminNotificationRouter from "./routes/adminNotificationRoute";
+import adminSettings from "./routes/adminsettingsRoutes";
 import adminAnalytics from "./routes/analyticsRoutes";
+import authRoutes from "./routes/authRoutes";
+import cartRoutes from "./routes/cartRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
+import couponRoutes from "./routes/couponRoutes";
+import customerRoutes from "./routes/customer.route";
+import emailRoutes from "./routes/email.route";
+import orderRoutes from "./routes/orderRoutes";
 import paymentRoute from "./routes/paymentRoute";
+import productRoutes from "./routes/productRoutes";
+import reviewRoutes from "./routes/reviews.route";
+import settingsRoutes from "./routes/settingRoutes";
 import subscriptionRoutes from "./routes/subscription.routes";
-import { sendNotifications } from "./services/test";
+import wishlistRoute from "./routes/wishlist";
 
 dotenv.config();
 const app = express();
@@ -40,7 +39,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // Enable preflight for all routes
 app.use(express.json());
 app.use(cookieParser());
 

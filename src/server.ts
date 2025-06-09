@@ -67,7 +67,7 @@ app.use("/api/admin-analytics", adminAnalytics);
 app.use("/api/payment", paymentRoute);
 app.use("/api/subscriptions", subscriptionRoutes);
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`Server is now running on port ${PORT}`);
 });
 

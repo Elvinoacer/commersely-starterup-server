@@ -39,7 +39,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Enable preflight for all routes
 app.use(express.json());
 app.use(cookieParser());

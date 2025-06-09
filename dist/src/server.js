@@ -18,29 +18,30 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("./lib/db"));
 const addressRoutes_1 = __importDefault(require("./routes/addressRoutes"));
-const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
-const cartRoutes_1 = __importDefault(require("./routes/cartRoutes"));
-const couponRoutes_1 = __importDefault(require("./routes/couponRoutes"));
-const orderRoutes_1 = __importDefault(require("./routes/orderRoutes"));
-const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
-const settingRoutes_1 = __importDefault(require("./routes/settingRoutes"));
-const adminsettingsRoutes_1 = __importDefault(require("./routes/adminsettingsRoutes"));
-const wishlist_1 = __importDefault(require("./routes/wishlist"));
-const categoryRoutes_1 = __importDefault(require("./routes/categoryRoutes"));
-const customer_route_1 = __importDefault(require("./routes/customer.route"));
-const reviews_route_1 = __importDefault(require("./routes/reviews.route"));
-const email_route_1 = __importDefault(require("./routes/email.route"));
 const adminActivityRoutes_1 = __importDefault(require("./routes/adminActivityRoutes"));
 const adminNotificationRoute_1 = __importDefault(require("./routes/adminNotificationRoute"));
+const adminsettingsRoutes_1 = __importDefault(require("./routes/adminsettingsRoutes"));
 const analyticsRoutes_1 = __importDefault(require("./routes/analyticsRoutes"));
+const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const cartRoutes_1 = __importDefault(require("./routes/cartRoutes"));
+const categoryRoutes_1 = __importDefault(require("./routes/categoryRoutes"));
+const couponRoutes_1 = __importDefault(require("./routes/couponRoutes"));
+const customer_route_1 = __importDefault(require("./routes/customer.route"));
+const email_route_1 = __importDefault(require("./routes/email.route"));
+const orderRoutes_1 = __importDefault(require("./routes/orderRoutes"));
 const paymentRoute_1 = __importDefault(require("./routes/paymentRoute"));
+const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
+const reviews_route_1 = __importDefault(require("./routes/reviews.route"));
+const settingRoutes_1 = __importDefault(require("./routes/settingRoutes"));
 const subscription_routes_1 = __importDefault(require("./routes/subscription.routes"));
+const wishlist_1 = __importDefault(require("./routes/wishlist"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = parseInt(process.env.PORT || "10000", 10);
 const corsOptions = {
     origin: [
-        "https://commersely-starterup.vercel.app/",
+        "https://commersely-starterup.vercel.app",
+        "https://commersely-starterup-server-1.onrender.com",
         "http://localhost:3000",
         "https://3888-197-136-187-86.ngrok-free.app",
     ],

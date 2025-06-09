@@ -25,7 +25,7 @@ import { sendNotifications } from "./services/test";
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = parseInt(process.env.PORT || "10000", 10);
 
 const corsOptions = {
   origin: [
@@ -67,11 +67,22 @@ app.use("/api/admin-analytics", adminAnalytics);
 app.use("/api/payment", paymentRoute);
 app.use("/api/subscriptions", subscriptionRoutes);
 
-app.listen(+PORT, "0.0.0.0", () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is now running on port ${PORT}`);
 });
 
 process.on("SIGINT", async () => {
   await prisma.$disconnect();
   process.exit();
+});
+process.on("uncaughtException", async (err) => {
+  console.error("Uncaught Exception:", err);
+  await prisma.$disconnect();
+  process.exit(1);
+});
+
+process.on("unhandledRejection", async (err) => {
+  console.error("Unhandled Rejection:", err);
+  await prisma.$disconnect();
+  process.exit(1);
 });

@@ -29,23 +29,37 @@ function generateToken(userId, email, role) {
     }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
     return { accessToken, refreshToken };
 }
+// function setTokens(res: Response, accessToken: string, refreshToken: string) {
+//   const isProduction = process.env.NODE_ENV === "production";
+//   const domain = process.env.COOKIE_DOMAIN || undefined;
+//   const commonOptions = {
+//     httpOnly: true,
+//     secure: isProduction,
+//     sameSite: (isProduction ? "none" : "lax") as "none" | "lax" | "strict",
+//     domain,
+//     path: "/",
+//   };
+//   res.cookie("accessToken", accessToken, {
+//     ...commonOptions,
+//     maxAge: 60 * 60 * 1000, // 1 hour
+//   });
+//   res.cookie("refreshToken", refreshToken, {
+//     ...commonOptions,
+//     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//   });
+// }
+// production:
 function setTokens(res, accessToken, refreshToken) {
     const isProduction = process.env.NODE_ENV === "production";
-    const domain = isProduction ? ".commersely-starterup.vercel.app" : undefined;
-    res.cookie("accessToken", accessToken, {
+    const commonOptions = {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "lax",
-        maxAge: 60 * 60 * 1000, // 1 hour
-        domain: domain,
-    });
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        domain: domain,
-    });
+        secure: true, // Always true in production
+        sameSite: "none", // Must be "none" for cross-site cookies
+        domain: ".onrender.com", // Main domain without subdomain
+        path: "/",
+    };
+    res.cookie("accessToken", accessToken, Object.assign(Object.assign({}, commonOptions), { maxAge: 60 * 60 * 1000 }));
+    res.cookie("refreshToken", refreshToken, Object.assign(Object.assign({}, commonOptions), { maxAge: 7 * 24 * 60 * 60 * 1000 }));
 }
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

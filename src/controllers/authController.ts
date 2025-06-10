@@ -25,24 +25,49 @@ function generateToken(userId: string, email: string, role: string) {
   return { accessToken, refreshToken };
 }
 
+// function setTokens(res: Response, accessToken: string, refreshToken: string) {
+//   const isProduction = process.env.NODE_ENV === "production";
+//   const domain = process.env.COOKIE_DOMAIN || undefined;
+
+//   const commonOptions = {
+//     httpOnly: true,
+//     secure: isProduction,
+//     sameSite: (isProduction ? "none" : "lax") as "none" | "lax" | "strict",
+//     domain,
+//     path: "/",
+//   };
+
+//   res.cookie("accessToken", accessToken, {
+//     ...commonOptions,
+//     maxAge: 60 * 60 * 1000, // 1 hour
+//   });
+
+//   res.cookie("refreshToken", refreshToken, {
+//     ...commonOptions,
+//     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//   });
+// }
+// production:
+
 function setTokens(res: Response, accessToken: string, refreshToken: string) {
   const isProduction = process.env.NODE_ENV === "production";
-  const domain = isProduction ? ".commersely-starterup.vercel.app" : undefined;
+
+  const commonOptions = {
+    httpOnly: true,
+    secure: true, // Always true in production
+    sameSite: "none" as "none", // Must be "none" for cross-site cookies
+    domain: ".onrender.com", // Main domain without subdomain
+    path: "/",
+  };
 
   res.cookie("accessToken", accessToken, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? "none" : "lax",
+    ...commonOptions,
     maxAge: 60 * 60 * 1000, // 1 hour
-    domain: domain,
   });
 
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? "none" : "lax",
+    ...commonOptions,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    domain: domain,
   });
 }
 export const register = async (req: Request, res: Response): Promise<void> => {

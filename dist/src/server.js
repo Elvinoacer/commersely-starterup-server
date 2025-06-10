@@ -47,7 +47,8 @@ const corsOptions = {
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    exposedHeaders: ["Set-Cookie"],
 };
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());

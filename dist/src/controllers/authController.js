@@ -29,41 +29,22 @@ function generateToken(userId, email, role) {
     }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
     return { accessToken, refreshToken };
 }
-// local
-// async function setTokens(
-//   res: Response,
-//   accessToken: string,
-//   refreshToken: string
-// ) {
-//   res.cookie("accessToken", accessToken, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === "production",
-//     sameSite: "strict",
-//     maxAge: 60 * 60 * 1000,
-//   });
-//   res.cookie("refreshToken", refreshToken, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === "production",
-//     sameSite: "strict",
-//     maxAge: 7 * 24 * 60 * 60,
-//   });
-// }
-//  producttion:
 function setTokens(res, accessToken, refreshToken) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const isProduction = process.env.NODE_ENV === "production";
-        res.cookie("accessToken", accessToken, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "lax",
-            maxAge: 60 * 60 * 1000, // 1 hour
-        });
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        });
+    const isProduction = process.env.NODE_ENV === "production";
+    const domain = isProduction ? ".commersely-starterup.vercel.app" : undefined;
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        maxAge: 60 * 60 * 1000, // 1 hour
+        domain: domain,
+    });
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        domain: domain,
     });
 }
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -201,16 +182,6 @@ const refreshAccessToken = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.refreshAccessToken = refreshAccessToken;
-// local
-// export const logout = async (req: Request, res: Response): Promise<void> => {
-//   res.clearCookie("accessToken");
-//   res.clearCookie("refreshToken");
-//   res.json({
-//     success: true,
-//     message: "User logged out successfully",
-//   });
-// };
-// production
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const isProduction = process.env.NODE_ENV === "production";
     res.clearCookie("accessToken", {

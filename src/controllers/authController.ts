@@ -25,18 +25,16 @@ function generateToken(userId: string, email: string, role: string) {
   return { accessToken, refreshToken };
 }
 
-async function setTokens(
-  res: Response,
-  accessToken: string,
-  refreshToken: string
-) {
+function setTokens(res: Response, accessToken: string, refreshToken: string) {
   const isProduction = process.env.NODE_ENV === "production";
+  const domain = isProduction ? ".commersely-starterup.vercel.app" : undefined;
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: isProduction,
     sameSite: isProduction ? "none" : "lax",
     maxAge: 60 * 60 * 1000, // 1 hour
+    domain: domain,
   });
 
   res.cookie("refreshToken", refreshToken, {
@@ -44,6 +42,7 @@ async function setTokens(
     secure: isProduction,
     sameSite: isProduction ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    domain: domain,
   });
 }
 export const register = async (req: Request, res: Response): Promise<void> => {

@@ -25,25 +25,49 @@ function generateToken(userId: string, email: string, role: string) {
   return { accessToken, refreshToken };
 }
 
+// local
+// async function setTokens(
+//   res: Response,
+//   accessToken: string,
+//   refreshToken: string
+// ) {
+//   res.cookie("accessToken", accessToken, {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === "production",
+//     sameSite: "strict",
+//     maxAge: 60 * 60 * 1000,
+//   });
+//   res.cookie("refreshToken", refreshToken, {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === "production",
+//     sameSite: "strict",
+//     maxAge: 7 * 24 * 60 * 60,
+//   });
+// }
+//  producttion:
 async function setTokens(
   res: Response,
   accessToken: string,
   refreshToken: string
 ) {
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax", // Change to 'none' for cross-site
     maxAge: 60 * 60 * 1000,
+    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
   });
+
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax", // Change to 'none' for cross-site
     maxAge: 7 * 24 * 60 * 60,
+    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
   });
 }
-
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, password } = req.body;
@@ -197,9 +221,33 @@ export const refreshAccessToken = async (
   }
 };
 
+// local
+// export const logout = async (req: Request, res: Response): Promise<void> => {
+//   res.clearCookie("accessToken");
+//   res.clearCookie("refreshToken");
+//   res.json({
+//     success: true,
+//     message: "User logged out successfully",
+//   });
+// };
+// production
 export const logout = async (req: Request, res: Response): Promise<void> => {
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
+  const isProduction = process.env.NODE_ENV === "production";
+
+  res.clearCookie("accessToken", {
+    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    httpOnly: true,
+  });
+
+  res.clearCookie("refreshToken", {
+    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    httpOnly: true,
+  });
+
   res.json({
     success: true,
     message: "User logged out successfully",

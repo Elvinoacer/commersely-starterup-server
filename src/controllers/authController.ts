@@ -52,21 +52,17 @@ async function setTokens(
 ) {
   const isProduction = process.env.NODE_ENV === "production";
 
-  const cookieOptions = {
+  res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? ("none" as const) : ("lax" as const),
-    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
-    path: "/",
-  };
-
-  res.cookie("accessToken", accessToken, {
-    ...cookieOptions,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 60 * 60 * 1000, // 1 hour
   });
 
   res.cookie("refreshToken", refreshToken, {
-    ...cookieOptions,
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 }
@@ -244,14 +240,12 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
   const isProduction = process.env.NODE_ENV === "production";
 
   res.clearCookie("accessToken", {
-    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
     secure: isProduction,
     sameSite: isProduction ? "none" : "lax",
     httpOnly: true,
   });
 
   res.clearCookie("refreshToken", {
-    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
     secure: isProduction,
     sameSite: isProduction ? "none" : "lax",
     httpOnly: true,

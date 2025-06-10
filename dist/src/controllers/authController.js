@@ -52,15 +52,18 @@ function generateToken(userId, email, role) {
 function setTokens(res, accessToken, refreshToken) {
     return __awaiter(this, void 0, void 0, function* () {
         const isProduction = process.env.NODE_ENV === "production";
-        const cookieOptions = {
+        res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: isProduction,
             sameSite: isProduction ? "none" : "lax",
-            domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
-            path: "/",
-        };
-        res.cookie("accessToken", accessToken, Object.assign(Object.assign({}, cookieOptions), { maxAge: 60 * 60 * 1000 }));
-        res.cookie("refreshToken", refreshToken, Object.assign(Object.assign({}, cookieOptions), { maxAge: 7 * 24 * 60 * 60 * 1000 }));
+            maxAge: 60 * 60 * 1000, // 1 hour
+        });
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
     });
 }
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -211,13 +214,11 @@ exports.refreshAccessToken = refreshAccessToken;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const isProduction = process.env.NODE_ENV === "production";
     res.clearCookie("accessToken", {
-        domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
         secure: isProduction,
         sameSite: isProduction ? "none" : "lax",
         httpOnly: true,
     });
     res.clearCookie("refreshToken", {
-        domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
         secure: isProduction,
         sameSite: isProduction ? "none" : "lax",
         httpOnly: true,

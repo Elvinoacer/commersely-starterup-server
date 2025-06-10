@@ -55,17 +55,15 @@ async function setTokens(
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? "none" : "lax", // Change to 'none' for cross-site
-    maxAge: 60 * 60 * 1000,
-    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
+    sameSite: isProduction ? "none" : "lax",
+    maxAge: 60 * 60 * 1000, // 1 hour
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? "none" : "lax", // Change to 'none' for cross-site
-    maxAge: 7 * 24 * 60 * 60,
-    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
+    sameSite: isProduction ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 }
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -210,6 +208,13 @@ export const refreshAccessToken = async (
       user.email,
       user.role
     );
+
+    // Update refresh token in the database
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { refreshToken: newRefreshToken },
+    });
+
     await setTokens(res, accessToken, newRefreshToken);
     res.status(200).json({
       success: true,

@@ -44,7 +44,7 @@ app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.json(
-    "Hello there, check this out, https://elvin-juma-portfolio.vercel.app/"
+    "Hello there, we love you! mate"
   );
 });
 

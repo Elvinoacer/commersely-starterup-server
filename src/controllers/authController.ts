@@ -25,26 +25,6 @@ function generateToken(userId: string, email: string, role: string) {
   return { accessToken, refreshToken };
 }
 
-// local
-// async function setTokens(
-//   res: Response,
-//   accessToken: string,
-//   refreshToken: string
-// ) {
-//   res.cookie("accessToken", accessToken, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === "production",
-//     sameSite: "strict",
-//     maxAge: 60 * 60 * 1000,
-//   });
-//   res.cookie("refreshToken", refreshToken, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === "production",
-//     sameSite: "strict",
-//     maxAge: 7 * 24 * 60 * 60,
-//   });
-// }
-//  producttion:
 async function setTokens(
   res: Response,
   accessToken: string,
@@ -227,16 +207,6 @@ export const refreshAccessToken = async (
   }
 };
 
-// local
-// export const logout = async (req: Request, res: Response): Promise<void> => {
-//   res.clearCookie("accessToken");
-//   res.clearCookie("refreshToken");
-//   res.json({
-//     success: true,
-//     message: "User logged out successfully",
-//   });
-// };
-// production
 export const logout = async (req: Request, res: Response): Promise<void> => {
   const isProduction = process.env.NODE_ENV === "production";
 

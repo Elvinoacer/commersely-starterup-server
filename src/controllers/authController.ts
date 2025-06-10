@@ -129,7 +129,6 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
 // Other functions (login, refreshAccessToken, logout) remain unchanged
 export const login = async (req: Request, res: Response): Promise<void> => {
-  let accessTokenD, refreshTokenD;
   try {
     const { email, password } = req.body;
     const extractCurrentUser = await prisma.user.findUnique({
@@ -153,8 +152,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       extractCurrentUser.email,
       extractCurrentUser.role
     );
-    accessTokenD = accessToken;
-    refreshTokenD = refreshToken;
+
+    // Store refreshToken in the database
+    await prisma.user.update({
+      where: { id: extractCurrentUser.id },
+      data: { refreshToken },
+    });
 
     await setTokens(res, accessToken, refreshToken);
     res.status(200).json({
@@ -170,9 +173,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ error: "Login failed", accessTokenD, refreshTokenD });
+    res.status(500).json({ error: "Login failed" });
   }
 };
 

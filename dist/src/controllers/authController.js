@@ -124,7 +124,6 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.register = register;
 // Other functions (login, refreshAccessToken, logout) remain unchanged
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let accessTokenD, refreshTokenD;
     try {
         const { email, password } = req.body;
         const extractCurrentUser = yield db_1.default.user.findUnique({
@@ -140,8 +139,11 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         const { accessToken, refreshToken } = generateToken(extractCurrentUser.id, extractCurrentUser.email, extractCurrentUser.role);
-        accessTokenD = accessToken;
-        refreshTokenD = refreshToken;
+        // Store refreshToken in the database
+        yield db_1.default.user.update({
+            where: { id: extractCurrentUser.id },
+            data: { refreshToken },
+        });
         yield setTokens(res, accessToken, refreshToken);
         res.status(200).json({
             success: true,
@@ -157,9 +159,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         console.error(error);
-        res
-            .status(500)
-            .json({ error: "Login failed", accessTokenD, refreshTokenD });
+        res.status(500).json({ error: "Login failed" });
     }
 });
 exports.login = login;

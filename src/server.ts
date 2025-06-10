@@ -43,9 +43,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.json(
-    "Hello there, we love you! mate"
-  );
+  res.json({ yourCookies: req.cookies.refreshToken });
 });
 
 app.use("/api/auth", authRoutes);

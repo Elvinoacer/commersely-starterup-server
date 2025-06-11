@@ -37,7 +37,7 @@ const subscription_routes_1 = __importDefault(require("./routes/subscription.rou
 const wishlist_1 = __importDefault(require("./routes/wishlist"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const PORT = parseInt(process.env.PORT || "10000", 10);
+const PORT = parseInt("3001", 10);
 const corsOptions = {
     origin: [
         "https://commersely-starterup.vercel.app",

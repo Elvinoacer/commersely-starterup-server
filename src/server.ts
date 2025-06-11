@@ -24,7 +24,7 @@ import wishlistRoute from "./routes/wishlist";
 
 dotenv.config();
 const app = express();
-const PORT = parseInt(process.env.PORT || "10000", 10);
+const PORT = parseInt("3001", 10);
 
 const corsOptions = {
   origin: [

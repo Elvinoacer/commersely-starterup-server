@@ -32,7 +32,7 @@ function setTokens(res: Response, accessToken: string, refreshToken: string) {
     httpOnly: true,
     secure: isProduction, // Always true in production
     sameSite: (isProduction ? "none" : "lax") as "none" | "lax" | "strict", // Must be "none" for cross-site cookies
-    domain: isProduction ? ".onrender.com" : undefined, // Main domain without subdomain
+    // domain: isProduction ? ".onrender.com" : undefined, // Main domain without subdomain
     path: "/",
   };
 

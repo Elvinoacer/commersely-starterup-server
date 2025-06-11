@@ -35,7 +35,7 @@ function setTokens(res, accessToken, refreshToken) {
         httpOnly: true,
         secure: isProduction, // Always true in production
         sameSite: (isProduction ? "none" : "lax"), // Must be "none" for cross-site cookies
-        domain: isProduction ? ".onrender.com" : undefined, // Main domain without subdomain
+        // domain: isProduction ? ".onrender.com" : undefined, // Main domain without subdomain
         path: "/",
     };
     res.cookie("accessToken", accessToken, Object.assign(Object.assign({}, commonOptions), { maxAge: 60 * 60 * 1000 }));

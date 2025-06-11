@@ -29,12 +29,12 @@ const PORT = parseInt(process.env.PORT || "10000", 10);
 const corsOptions = {
   origin: [
     "https://commersely-starterup.vercel.app",
-    "http://localhost:3000" // for local development
+    "http://localhost:3000", // for local development
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  exposedHeaders: ["Set-Cookie"],
+  // exposedHeaders: ["Set-Cookie"],
 };
 
 app.use(cors(corsOptions));

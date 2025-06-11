@@ -39,7 +39,7 @@ function setTokens(res, accessToken, refreshToken) {
         secure: isProduction,
         sameSite: (isProduction ? "none" : "lax"),
         path: "/",
-        // domain: frontendDomain, // Set this explicitly
+        domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
     };
     res.cookie("accessToken", accessToken, Object.assign(Object.assign({}, commonOptions), { maxAge: 60 * 60 * 1000 }));
     res.cookie("refreshToken", refreshToken, Object.assign(Object.assign({}, commonOptions), { maxAge: 7 * 24 * 60 * 60 * 1000 }));

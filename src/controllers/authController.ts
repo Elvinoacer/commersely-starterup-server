@@ -10,7 +10,7 @@ function generateToken(userId: string, email: string, role: string) {
       email,
       role,
     },
-    "a21f41944364a34b60f0b246a59a0404fdc5c83c23caf63104908ab89bd116fd",
+    process.env.JWT_ACCESS_SECRET!,
     { expiresIn: "60m" }
   );
   const refreshToken = jwt.sign(
@@ -19,7 +19,7 @@ function generateToken(userId: string, email: string, role: string) {
       email,
       role,
     },
-    "a21f41944364a34b60f0b246a59a0404fdc5c83c23caf63104908ab89b778",
+    process.env.JWT_REFRESH_SECRET!,
     { expiresIn: "7d" }
   );
   return { accessToken, refreshToken };

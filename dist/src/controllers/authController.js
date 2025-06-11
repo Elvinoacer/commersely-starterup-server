@@ -21,12 +21,12 @@ function generateToken(userId, email, role) {
         userId,
         email,
         role,
-    }, "a21f41944364a34b60f0b246a59a0404fdc5c83c23caf63104908ab89bd116fd", { expiresIn: "60m" });
+    }, process.env.JWT_ACCESS_SECRET, { expiresIn: "60m" });
     const refreshToken = jsonwebtoken_1.default.sign({
         userId,
         email,
         role,
-    }, "a21f41944364a34b60f0b246a59a0404fdc5c83c23caf63104908ab89b778", { expiresIn: "7d" });
+    }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
     return { accessToken, refreshToken };
 }
 function setTokens(res, accessToken, refreshToken) {

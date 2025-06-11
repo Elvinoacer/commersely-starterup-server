@@ -45,10 +45,17 @@ const corsOptions = {
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-    // exposedHeaders: ["Set-Cookie"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "Accept",
+    ],
+    // Add this to explicitly expose headers if needed
+    exposedHeaders: ["set-cookie", "Set-Cookie"],
 };
 app.use((0, cors_1.default)(corsOptions));
+app.options("*", (0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.get("/", (req, res) => {

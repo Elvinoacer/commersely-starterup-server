@@ -10,7 +10,7 @@ function generateToken(userId: string, email: string, role: string) {
       email,
       role,
     },
-    process.env.JWT_ACCESS_SECRET!,
+    "a21f41944364a34b60f0b246a59a0404fdc5c83c23caf63104908ab89bd116fd",
     { expiresIn: "60m" }
   );
   const refreshToken = jwt.sign(
@@ -19,33 +19,11 @@ function generateToken(userId: string, email: string, role: string) {
       email,
       role,
     },
-    process.env.JWT_REFRESH_SECRET!,
+    "a21f41944364a34b60f0b246a59a0404fdc5c83c23caf63104908ab89b778",
     { expiresIn: "7d" }
   );
   return { accessToken, refreshToken };
 }
-
-// function setTokens(res: Response, accessToken: string, refreshToken: string) {
-//   const isProduction = process.env.NODE_ENV === "production";
-
-//   const commonOptions = {
-//     httpOnly: true,
-//     secure: isProduction, // Always true in production
-//     sameSite: (isProduction ? "none" : "lax") as "none" | "lax" | "strict", // Must be "none" for cross-site cookies
-//     // domain: isProduction ? ".onrender.com" : undefined, // Main domain without subdomain
-//     path: "/",
-//   };
-
-//   res.cookie("accessToken", accessToken, {
-//     ...commonOptions,
-//     maxAge: 60 * 60 * 1000, // 1 hour
-//   });
-
-//   res.cookie("refreshToken", refreshToken, {
-//     ...commonOptions,
-//     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-//   });
-// }
 
 function setTokens(res: Response, accessToken: string, refreshToken: string) {
   const isProduction = process.env.NODE_ENV === "production";
@@ -58,7 +36,7 @@ function setTokens(res: Response, accessToken: string, refreshToken: string) {
     secure: isProduction,
     sameSite: (isProduction ? "none" : "lax") as "none" | "lax" | "strict",
     path: "/",
-    domain: frontendDomain, // Set this explicitly
+    // domain: frontendDomain, // Set this explicitly
   };
 
   res.cookie("accessToken", accessToken, {

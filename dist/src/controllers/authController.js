@@ -29,33 +29,13 @@ function generateToken(userId, email, role) {
     }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
     return { accessToken, refreshToken };
 }
-// function setTokens(res: Response, accessToken: string, refreshToken: string) {
-//   const isProduction = process.env.NODE_ENV === "production";
-//   const domain = process.env.COOKIE_DOMAIN || undefined;
-//   const commonOptions = {
-//     httpOnly: true,
-//     secure: isProduction,
-//     sameSite: (isProduction ? "none" : "lax") as "none" | "lax" | "strict",
-//     domain,
-//     path: "/",
-//   };
-//   res.cookie("accessToken", accessToken, {
-//     ...commonOptions,
-//     maxAge: 60 * 60 * 1000, // 1 hour
-//   });
-//   res.cookie("refreshToken", refreshToken, {
-//     ...commonOptions,
-//     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-//   });
-// }
-// production:
 function setTokens(res, accessToken, refreshToken) {
     const isProduction = process.env.NODE_ENV === "production";
     const commonOptions = {
         httpOnly: true,
-        secure: true, // Always true in production
-        sameSite: "none", // Must be "none" for cross-site cookies
-        domain: ".onrender.com", // Main domain without subdomain
+        secure: isProduction, // Always true in production
+        sameSite: (isProduction ? "none" : "lax"), // Must be "none" for cross-site cookies
+        domain: isProduction ? ".onrender.com" : undefined, // Main domain without subdomain
         path: "/",
     };
     res.cookie("accessToken", accessToken, Object.assign(Object.assign({}, commonOptions), { maxAge: 60 * 60 * 1000 }));

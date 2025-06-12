@@ -33,7 +33,7 @@ function setTokens(res: Response, accessToken: string, refreshToken: string) {
     secure: isProduction,
     sameSite: (isProduction ? "none" : "lax") as "none" | "lax" | "strict",
     path: "/",
-    domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
+    // domain: isProduction ? ".commersely-starterup.vercel.app" : undefined,
   };
 
   res.cookie("accessToken", accessToken, {

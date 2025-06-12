@@ -27,9 +27,6 @@ function generateToken(userId: string, email: string, role: string) {
 
 function setTokens(res: Response, accessToken: string, refreshToken: string) {
   const isProduction = process.env.NODE_ENV === "production";
-  const frontendDomain = isProduction
-    ? "commersely-starterup.vercel.app"
-    : "localhost";
 
   const commonOptions = {
     httpOnly: true,

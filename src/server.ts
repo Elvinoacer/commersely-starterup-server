@@ -27,10 +27,7 @@ const app = express();
 const PORT = parseInt("3001", 10);
 
 const corsOptions = {
-  origin: [
-    "https://commersely-starterup.vercel.app",
-    "http://localhost:3000", // for local development
-  ],
+  origin: ["https://commersely-starterup.vercel.app", "http://localhost:3000"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: [
@@ -38,8 +35,9 @@ const corsOptions = {
     "Authorization",
     "X-Requested-With",
     "Accept",
+    "Cookie",
+    "Set-Cookie",
   ],
-  // Add this to explicitly expose headers if needed
   exposedHeaders: ["set-cookie", "Set-Cookie"],
 };
 app.use(cors(corsOptions));

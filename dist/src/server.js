@@ -52,11 +52,17 @@ const PORT = parseInt("3001", 10);
 //   ],
 //   exposedHeaders: ["set-cookie", "Set-Cookie"],
 // };
+// local storage
 const corsOptions = {
-    origin: "https://commersely-starterup.vercel.app",
+    origin: ["https://commersely-starterup.vercel.app", "http://localhost:3000"],
     credentials: true,
-    exposedHeaders: ["set-cookie", "Set-Cookie"],
-    allowedHeaders: ["Content-Type", "Authorization", "Set-Cookie", "Cookie"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "Accept",
+    ],
 };
 app.use((0, cors_1.default)(corsOptions));
 app.options("*", (0, cors_1.default)(corsOptions));

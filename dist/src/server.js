@@ -38,19 +38,25 @@ const wishlist_1 = __importDefault(require("./routes/wishlist"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = parseInt("3001", 10);
+// const corsOptions = {
+//   origin: ["https://commersely-starterup.vercel.app", "http://localhost:3000"],
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: [
+//     "Content-Type",
+//     "Authorization",
+//     "X-Requested-With",
+//     "Accept",
+//     "Cookie",
+//     "Set-Cookie",
+//   ],
+//   exposedHeaders: ["set-cookie", "Set-Cookie"],
+// };
 const corsOptions = {
-    origin: ["https://commersely-starterup.vercel.app", "http://localhost:3000"],
+    origin: "https://commersely-starterup.vercel.app",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: [
-        "Content-Type",
-        "Authorization",
-        "X-Requested-With",
-        "Accept",
-        "Cookie",
-        "Set-Cookie",
-    ],
     exposedHeaders: ["set-cookie", "Set-Cookie"],
+    allowedHeaders: ["Content-Type", "Authorization", "Set-Cookie", "Cookie"],
 };
 app.use((0, cors_1.default)(corsOptions));
 app.options("*", (0, cors_1.default)(corsOptions));

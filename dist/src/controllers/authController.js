@@ -107,6 +107,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         if (!extractCurrentUser ||
             !(yield bcryptjs_1.default.compare(password, extractCurrentUser.password))) {
+            // Add headers even for failed attempts
+            res.setHeader("Access-Control-Allow-Credentials", "true");
+            res.setHeader("Access-Control-Allow-Origin", "https://commersely-starterup.vercel.app");
             res.status(401).json({
                 success: false,
                 error: "Invalid credentials",
@@ -120,6 +123,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             data: { refreshToken },
         });
         yield setTokens(res, accessToken, refreshToken);
+        // Set the critical CORS headers before sending response
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.setHeader("Access-Control-Allow-Origin", "https://commersely-starterup.vercel.app");
         res.status(200).json({
             success: true,
             message: "Login successfully",
@@ -134,6 +140,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         console.error(error);
+        // Also include headers in error responses
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.setHeader("Access-Control-Allow-Origin", "https://commersely-starterup.vercel.app");
         res.status(500).json({ error: "Login failed" });
     }
 });

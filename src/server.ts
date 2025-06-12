@@ -26,20 +26,28 @@ dotenv.config();
 const app = express();
 const PORT = parseInt("3001", 10);
 
+// const corsOptions = {
+//   origin: ["https://commersely-starterup.vercel.app", "http://localhost:3000"],
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: [
+//     "Content-Type",
+//     "Authorization",
+//     "X-Requested-With",
+//     "Accept",
+//     "Cookie",
+//     "Set-Cookie",
+//   ],
+//   exposedHeaders: ["set-cookie", "Set-Cookie"],
+// };
+
 const corsOptions = {
-  origin: ["https://commersely-starterup.vercel.app", "http://localhost:3000"],
+  origin: "https://commersely-starterup.vercel.app",
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "Accept",
-    "Cookie",
-    "Set-Cookie",
-  ],
   exposedHeaders: ["set-cookie", "Set-Cookie"],
+  allowedHeaders: ["Content-Type", "Authorization", "Set-Cookie", "Cookie"],
 };
+
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 app.use(express.json());

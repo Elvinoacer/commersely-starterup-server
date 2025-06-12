@@ -120,6 +120,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       !extractCurrentUser ||
       !(await bcrypt.compare(password, extractCurrentUser.password))
     ) {
+      // Add headers even for failed attempts
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader(
+        "Access-Control-Allow-Origin",
+        "https://commersely-starterup.vercel.app"
+      );
       res.status(401).json({
         success: false,
         error: "Invalid credentials",
@@ -140,6 +146,14 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     });
 
     await setTokens(res, accessToken, refreshToken);
+
+    // Set the critical CORS headers before sending response
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader(
+      "Access-Control-Allow-Origin",
+      "https://commersely-starterup.vercel.app"
+    );
+
     res.status(200).json({
       success: true,
       message: "Login successfully",
@@ -153,6 +167,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (error) {
     console.error(error);
+    // Also include headers in error responses
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader(
+      "Access-Control-Allow-Origin",
+      "https://commersely-starterup.vercel.app"
+    );
     res.status(500).json({ error: "Login failed" });
   }
 };
